@@ -1,0 +1,40 @@
+<mxfile host="65bd71144e">
+    <diagram id="kDcBXF374j9Ri9zJXK7-" name="Page-1">
+        <mxGraphModel dx="710" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="5" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="2" target="4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;id&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;firstName&lt;/span&gt;&lt;/li&gt;&lt;li&gt;lastName&lt;/li&gt;&lt;li&gt;email&lt;/li&gt;&lt;li&gt;phone&lt;/li&gt;&lt;li&gt;roles: [agent, user, seller]&lt;/li&gt;&lt;li&gt;password&lt;/li&gt;&lt;li&gt;country&lt;/li&gt;&lt;li&gt;address&lt;/li&gt;&lt;li&gt;state&lt;/li&gt;&lt;li&gt;town/city&lt;/li&gt;&lt;li&gt;streetname&lt;/li&gt;&lt;li&gt;postalcode&lt;/li&gt;&lt;li&gt;apartment No&lt;/li&gt;&lt;li&gt;landmarrk&lt;/li&gt;&lt;li&gt;bvn&lt;/li&gt;&lt;li&gt;nin&lt;/li&gt;&lt;/ol&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" vertex="1" parent="1">
+                    <mxGeometry x="360" width="100" height="430" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="120" y="185" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="7">
+                    <mxGeometry width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="USER" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7">
+                    <mxGeometry x="30" y="15" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=none;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="8" target="10">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;ol&gt;&lt;li&gt;title&lt;/li&gt;&lt;li&gt;address&lt;/li&gt;&lt;li&gt;description&lt;/li&gt;&lt;li&gt;features&lt;/li&gt;&lt;li&gt;landmarks&lt;/li&gt;&lt;li&gt;documeenttations&lt;/li&gt;&lt;li&gt;prices based on payment plan&lt;/li&gt;&lt;li&gt;no of plots&lt;/li&gt;&lt;li&gt;id&lt;/li&gt;&lt;/ol&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=middle;overflow=hidden;" vertex="1" parent="1">
+                    <mxGeometry x="310" y="430" width="100" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="100" y="570" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="13">
+                    <mxGeometry width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Land" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="13">
+                    <mxGeometry x="30" y="15" width="60" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
