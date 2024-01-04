@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { UserAuthenticationService } from './services/user-authentication/user-authentication.service';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/schemas/user.schema';
 import { UserLoginDto } from './dto/userlogin.dto';
+import { ResetPasswordDto } from './dto/resetpassword.dto';
 
 @ApiTags('Authentication')
 @Controller('authentication')
@@ -19,5 +20,40 @@ export class AuthenticationController {
   @Post('login')
   async login(@Body() body: UserLoginDto) {
     return this.userService.login(body);
+  }
+
+  @ApiParam({ name: 'email' })
+  @Get('user/request-password-reset-otp/:email')
+  async resetPasswordRequest(@Param('email') email: string) {
+    return this.userService.sendResetEmail(email);
+  }
+
+  @ApiParam({ name: 'email' })
+  @Get('user/resend-email-verification-otp/:email')
+  async resendEmailVerificationRequest(@Param('email') email: string) {
+    return this.userService.resendEmailVerifcationOtp(email);
+  }
+
+  @ApiParam({ name: 'code' })
+  @ApiParam({ name: 'id' })
+  @Put('user/verify-passwordreset-otp/:code/:id')
+  async verifyPasswordResetCode(
+    @Param('code') code: string,
+    @Param('id') id: string,
+  ) {
+    return this.userService.verifyPasswordResetOtp(code, id);
+  }
+
+  @ApiParam({ name: 'code' })
+  @ApiParam({ name: 'id' })
+  @Put('user/verify-email-otp/:code/:id')
+  async verifyEmailCode(@Param('code') code: string, @Param('id') id: string) {
+    return this.userService.verifyEmail(code, id);
+  }
+
+  @ApiBody({ type: ResetPasswordDto })
+  @Put('user/reset-password')
+  async resetPassword(@Body() body: ResetPasswordDto) {
+    return this.userService.resetPassword(body);
   }
 }
