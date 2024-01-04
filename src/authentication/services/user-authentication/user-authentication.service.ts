@@ -9,6 +9,8 @@ import { EmailService } from '@app/email';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from 'src/authentication/dto/userlogin.dto';
 import { ConfigService } from '@nestjs/config';
+import { OtpService } from '@app/otp';
+import { ResetPasswordDto } from 'src/authentication/dto/resetpassword.dto';
 
 @Injectable()
 export class UserAuthenticationService {
@@ -16,6 +18,7 @@ export class UserAuthenticationService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     private emailService: EmailService,
+    private otpService: OtpService, // private smsService: SmsService,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
@@ -93,6 +96,81 @@ export class UserAuthenticationService {
         refreshToken,
         user: { ...user['_doc'], password: '' },
       },
+    };
+  }
+
+  async resendEmailVerifcationOtp(email: string) {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new BadRequestException('No account found with that email');
+    }
+
+    await this.emailService.sendEmailVerificationOTP(user);
+
+    return {
+      message: 'OTP sent!',
+    };
+  }
+
+  async verifyEmail(otp: string, user_id: string) {
+    const user = await this.userModel.findById(user_id);
+    if (!user) {
+      throw new BadRequestException('No account found with that email');
+    }
+
+    const isValid = await this.otpService.verifyEmailOtp(otp, user_id);
+    if (!isValid) {
+      throw new BadRequestException('Invalid OTP');
+    }
+
+    return {
+      message: 'OTP verified',
+    };
+  }
+
+  async verifyPasswordResetOtp(otp: string, user_id: string) {
+    const user = await this.userModel.findById(user_id);
+    if (!user) {
+      throw new BadRequestException('No account found with that email');
+    }
+
+    const isValid = await this.otpService.verifyResetOtp(otp, user_id);
+    if (!isValid) {
+      throw new BadRequestException('Invalid OTP');
+    }
+
+    return {
+      message: 'OTP verified',
+    };
+  }
+
+  async sendResetEmail(email: string) {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new BadRequestException('No account found with that email');
+    }
+    await this.emailService.sendPasswordResetLink(user);
+    return {
+      message: 'Reset email sent',
+      data: {
+        id: user._id,
+      },
+    };
+  }
+
+  async resetPassword(payload: ResetPasswordDto) {
+    const user = await this.userModel.findById(payload.user_id);
+    if (user === null) {
+      throw new BadRequestException('User not found');
+    }
+
+    const newPassword = await this.hashPassword(payload.password);
+
+    await this.userModel.findByIdAndUpdate(payload.user_id, {
+      password: newPassword,
+    });
+    return {
+      message: 'password updated, you can now login',
     };
   }
 

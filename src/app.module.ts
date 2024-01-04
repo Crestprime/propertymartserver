@@ -10,9 +10,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { helpers } from 'handlebars';
 import { JwtModule } from '@nestjs/jwt';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -31,8 +28,7 @@ require('dotenv').config();
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         global: true,
-        secret: process.env.JWT_SECRET,
-        secretOrPrivateKey: configService.get('JWT_SECRET'),
+        secret: configService.get('JWT_SECRET'),
         signOptions: { expiresIn: '5d' },
       }),
       inject: [ConfigService],
@@ -52,7 +48,7 @@ require('dotenv').config();
               url: ' ',
               preserveMediaQueries: true,
             },
-          }),
+          } as any),
           options: {
             strict: true,
           },
