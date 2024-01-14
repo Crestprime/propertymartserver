@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UserAuthenticationService } from './services/user-authentication/user-authentication.service';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/schemas/user.schema';
@@ -55,5 +55,11 @@ export class AuthenticationController {
   @Put('user/reset-password')
   async resetPassword(@Body() body: ResetPasswordDto) {
     return this.userService.resetPassword(body);
+  }
+
+  @ApiParam({ name: 'email' })
+  @Delete('/user/:email')
+  deleteAccount(@Param('email') email: string) {
+    return this.userService.deleteAccount(email);
   }
 }

@@ -7,7 +7,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-//import { helpers } from 'handlebars';
+import { helpers } from 'handlebars';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -41,7 +41,14 @@ import { JwtModule } from '@nestjs/jwt';
         },
         template: {
           dir: join(process.cwd(), '/templates'),
-          adapter: new HandlebarsAdapter(),
+          adapter: new HandlebarsAdapter(helpers, {
+            inlineCssEnabled: true,
+            /** See https://www.npmjs.com/package/inline-css#api */
+            inlineCssOptions: {
+              url: ' ',
+              preserveMediaQueries: true,
+            } as any,
+          }),
           options: {
             strict: true,
           },
