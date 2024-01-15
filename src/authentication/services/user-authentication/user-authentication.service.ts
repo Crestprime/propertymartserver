@@ -35,6 +35,16 @@ export class UserAuthenticationService {
     user['roles'] = [USER_ROLE.USER];
     user['verification_level'] = VERIFICATION_LEVEL.BASIC;
 
+    const referral = await this.userModel.findOne({ referralId: user.referralId });
+
+    if (!referral) {
+      user['referralId'] = null;
+    }
+
+    if (referral && referral.referralId === user.referralId) {
+      user['referralId'] = '';
+    }
+
     const newUser = new this.userModel(user);
     newUser.save();
 
