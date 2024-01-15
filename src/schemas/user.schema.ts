@@ -63,6 +63,27 @@ export class User {
   emailVerified: boolean;
 
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Prop({
+    type: SchemaTypes.String,
+    trim: true,
+    default: '',
+  })
+  referralId: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Prop({
+    type: SchemaTypes.String,
+    trim: true,
+    default: '',
+    required: false,
+  })
+  referralCode: string;
+
+  @ApiProperty()
   @IsArray()
   @IsNotEmpty()
   @Expose()
@@ -101,4 +122,4 @@ export class User {
   updated_at: Date;
 }
 
-export const UserScheam = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(User);

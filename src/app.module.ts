@@ -9,6 +9,7 @@ import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { helpers } from 'handlebars';
 import { JwtModule } from '@nestjs/jwt';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { JwtModule } from '@nestjs/jwt';
       }),
     }),
     AuthenticationModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
