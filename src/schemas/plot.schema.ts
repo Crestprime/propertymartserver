@@ -1,35 +1,31 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
-import { IsString, IsArray, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { PLOT_STATUS } from 'src/enums/plotStatus';
 
-export type UserDocument = HydratedDocument<User>;
+export type PlotDocument = HydratedDocument<Plot>;
 
 @Schema()
 @Exclude()
-export class User {
+export class Plot {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Expose()
-  @Prop({ type: SchemaTypes.String })
-  name: string;
+  @Prop({ type: SchemaTypes.String, unique: true })
+  land_id: string;
 
   @ApiProperty()
-  @IsString()
+  @IsBoolean()
   @IsNotEmpty()
-  @IsEmail()
   @Expose()
   @Prop({
     type: SchemaTypes.String,
-    trim: true,
-    lowercase: true,
-    unique: true,
     required: true,
-    index: true,
   })
-  email: string;
+  plot_size: string;
 
   @ApiProperty()
   @IsString()
@@ -41,7 +37,7 @@ export class User {
     max: 15,
     min: 11,
   })
-  phone: string;
+  plot_price: string;
 
   @ApiProperty()
   @IsString()
@@ -49,24 +45,10 @@ export class User {
   @Prop({
     type: SchemaTypes.String,
     trim: true,
+    enum: PLOT_STATUS,
+    default: PLOT_STATUS.AVAILABLE,
   })
-  password: string;
-
-  @ApiProperty()
-  @IsArray()
-  @IsNotEmpty()
-  @Expose()
-  @Prop({
-    type: [SchemaTypes.String],
-  })
-  roles: string[];
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @Expose()
-  @Prop()
-  verification_level: string;
+  status: string;
 
   @ApiProperty()
   @IsString()
@@ -91,4 +73,4 @@ export class User {
   updated_at: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const PlotScheam = SchemaFactory.createForClass(Plot);

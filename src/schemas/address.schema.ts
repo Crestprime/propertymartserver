@@ -1,35 +1,30 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
-import { IsString, IsArray, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export type UserDocument = HydratedDocument<User>;
+export type AddressDocument = HydratedDocument<Address>;
 
 @Schema()
 @Exclude()
-export class User {
+export class Address {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Expose()
-  @Prop({ type: SchemaTypes.String })
-  name: string;
+  @Prop({ type: SchemaTypes.String, unique: true })
+  user_id: string;
 
   @ApiProperty()
-  @IsString()
+  @IsBoolean()
   @IsNotEmpty()
-  @IsEmail()
   @Expose()
   @Prop({
-    type: SchemaTypes.String,
-    trim: true,
-    lowercase: true,
-    unique: true,
+    type: SchemaTypes.Boolean,
     required: true,
-    index: true,
   })
-  email: string;
+  isDefault: boolean;
 
   @ApiProperty()
   @IsString()
@@ -50,23 +45,42 @@ export class User {
     type: SchemaTypes.String,
     trim: true,
   })
-  password: string;
-
-  @ApiProperty()
-  @IsArray()
-  @IsNotEmpty()
-  @Expose()
-  @Prop({
-    type: [SchemaTypes.String],
-  })
-  roles: string[];
+  country: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Expose()
-  @Prop()
-  verification_level: string;
+  @Prop({ type: SchemaTypes.String })
+  address: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  @Prop({ type: SchemaTypes.String })
+  state: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  @Prop({ type: SchemaTypes.String })
+  city: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  @Prop({ type: SchemaTypes.String })
+  street_name: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  @Prop({ type: SchemaTypes.String })
+  postal_code: string;
 
   @ApiProperty()
   @IsString()
@@ -91,4 +105,4 @@ export class User {
   updated_at: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const AddressSchema = SchemaFactory.createForClass(Address);

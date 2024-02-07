@@ -1,35 +1,30 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
-import { IsString, IsArray, IsEmail, IsNotEmpty } from 'class-validator';
-import { Exclude, Expose } from 'class-transformer';
+import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export type UserDocument = HydratedDocument<User>;
+export type LandDocument = HydratedDocument<Land>;
 
 @Schema()
 @Exclude()
-export class User {
+export class Land {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Expose()
-  @Prop({ type: SchemaTypes.String })
-  name: string;
+  @Prop({ type: SchemaTypes.String, unique: true })
+  title: string;
 
   @ApiProperty()
-  @IsString()
+  @IsBoolean()
   @IsNotEmpty()
-  @IsEmail()
   @Expose()
   @Prop({
     type: SchemaTypes.String,
-    trim: true,
-    lowercase: true,
-    unique: true,
     required: true,
-    index: true,
   })
-  email: string;
+  address: string;
 
   @ApiProperty()
   @IsString()
@@ -41,7 +36,7 @@ export class User {
     max: 15,
     min: 11,
   })
-  phone: string;
+  state: string;
 
   @ApiProperty()
   @IsString()
@@ -50,23 +45,45 @@ export class User {
     type: SchemaTypes.String,
     trim: true,
   })
-  password: string;
+  city: string;
 
   @ApiProperty()
-  @IsArray()
+  @IsBoolean()
   @IsNotEmpty()
   @Expose()
   @Prop({
-    type: [SchemaTypes.String],
+    type: SchemaTypes.String,
+    required: true,
   })
-  roles: string[];
+  description: string;
+
+  @ApiProperty()
+  @Type(() => Array<string>)
+  @IsNotEmpty()
+  @Expose()
+  @Prop({ type: [SchemaTypes.String] })
+  images: string[];
+
+  @ApiProperty()
+  @Type(() => Array<string>)
+  @IsNotEmpty()
+  @Expose()
+  @Prop({ type: [SchemaTypes.String] })
+  features: string[];
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Expose()
-  @Prop()
-  verification_level: string;
+  @Prop({ type: SchemaTypes.String })
+  plot_diagram: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  @Prop({ type: SchemaTypes.Boolean, default: false })
+  sold_out: boolean;
 
   @ApiProperty()
   @IsString()
@@ -91,4 +108,4 @@ export class User {
   updated_at: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const LandScheam = SchemaFactory.createForClass(Land);
