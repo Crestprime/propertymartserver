@@ -1,3 +1,7 @@
+import { Controller } from '@nestjs/common';
+
+@Controller('user')
+export class UserController {}
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './services/users/users.service';

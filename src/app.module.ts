@@ -10,6 +10,10 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { helpers } from 'handlebars';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './user/user.module';
+import { AddressModule } from './address/address.module';
+import { BankModule } from './bank/bank.module';
+import { PropertyModule } from './property/property.module';
+
 
 @Module({
   imports: [
@@ -58,6 +62,10 @@ import { UserModule } from './user/user.module';
     }),
     AuthenticationModule,
     UserModule,
+    AddressModule,
+    BankModule,
+    PropertyModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

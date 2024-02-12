@@ -1,0 +1,5 @@
+export enum PLOT_STATUS {
+  AVAILABLE = 'AVAILABLE',
+  RESERVED = 'RESERVED',
+  SOLD = 'SOLD',
+}
