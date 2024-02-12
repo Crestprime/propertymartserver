@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
-import { IsString, IsArray, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsString, IsArray, IsEmail, IsNotEmpty, IsBoolean } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -51,6 +51,37 @@ export class User {
     trim: true,
   })
   password: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsNotEmpty()
+  @Prop({
+    type: SchemaTypes.Boolean,
+    trim: true,
+    default: false,
+  })
+  emailVerified: boolean;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Prop({
+    type: SchemaTypes.String,
+    trim: true,
+    default: '',
+  })
+  referralId: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Prop({
+    type: SchemaTypes.String,
+    trim: true,
+    default: '',
+    required: false,
+  })
+  referralCode: string;
 
   @ApiProperty()
   @IsArray()

@@ -7,12 +7,13 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-//import { helpers } from 'handlebars';
+import { helpers } from 'handlebars';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
 import { BankModule } from './bank/bank.module';
 import { PropertyModule } from './property/property.module';
+
 
 @Module({
   imports: [
@@ -45,7 +46,14 @@ import { PropertyModule } from './property/property.module';
         },
         template: {
           dir: join(process.cwd(), '/templates'),
-          adapter: new HandlebarsAdapter(),
+          adapter: new HandlebarsAdapter(helpers, {
+            inlineCssEnabled: true,
+            /** See https://www.npmjs.com/package/inline-css#api */
+            inlineCssOptions: {
+              url: ' ',
+              preserveMediaQueries: true,
+            } as any,
+          }),
           options: {
             strict: true,
           },
@@ -57,6 +65,7 @@ import { PropertyModule } from './property/property.module';
     AddressModule,
     BankModule,
     PropertyModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

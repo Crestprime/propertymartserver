@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/schemas/user.schema';
-import { compare, genSalt, hash } from 'bcrypt';
+import { compare, genSalt, hash } from 'bcryptjs';
 import { USER_ROLE } from 'src/enums/UserRoles';
 import { VERIFICATION_LEVEL } from 'src/enums/VerificationLevel';
 import { EmailService } from '@app/email';
@@ -34,6 +34,16 @@ export class UserAuthenticationService {
     user.password = hash;
     user['roles'] = [USER_ROLE.USER];
     user['verification_level'] = VERIFICATION_LEVEL.BASIC;
+
+    const referral = await this.userModel.findOne({ referralId: user.referralId });
+
+    if (!referral) {
+      user['referralId'] = null;
+    }
+
+    if (referral && referral.referralId === user.referralId) {
+      user['referralId'] = '';
+    }
 
     const newUser = new this.userModel(user);
     newUser.save();
@@ -123,8 +133,11 @@ export class UserAuthenticationService {
       throw new BadRequestException('Invalid OTP');
     }
 
+    // update user schema 
+    const updatedSchema = await this.userModel.updateOne({ _id: user._id }, { emailVerified: true });
+
     return {
-      message: 'OTP verified',
+      message: 'email verified',
     };
   }
 
@@ -177,5 +190,19 @@ export class UserAuthenticationService {
   private async hashPassword(password: string) {
     const salt = await genSalt(10);
     return await hash(password, salt);
+  }
+
+  // WARNING DELETE THIS METHOD IN PODUCTION
+  async deleteAccount(email: string) {
+    const user = await this.userModel.findOne({ email });
+
+    if (user === null) {
+      throw new BadRequestException('User with this email not found!');
+    }
+   const deletedAccount = await this.userModel.deleteOne({ email });
+
+    return {
+      message: deletedAccount.deletedCount > 0 ? 'Account deleted':'account not deleted try again',
+    }
   }
 }
