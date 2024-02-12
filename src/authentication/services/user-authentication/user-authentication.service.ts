@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/schemas/user.schema';
-import { compare, genSalt, hash } from 'bcrypt';
+import { compare, genSalt, hash } from 'bcryptjs';
 import { USER_ROLE } from 'src/enums/UserRoles';
 import { VERIFICATION_LEVEL } from 'src/enums/VerificationLevel';
 import { EmailService } from '@app/email';

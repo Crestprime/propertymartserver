@@ -51,7 +51,7 @@ require('dotenv').config();
             inlineCssOptions: {
               url: ' ',
               preserveMediaQueries: true,
-            },
+            } as any,
           }),
           options: {
             strict: true,
